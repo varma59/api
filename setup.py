@@ -1,19 +1,9 @@
-import logging
-import azure.functions as func
-import csv
-import datetime
+from flask import Flask
 
-def main(req: func.HttpRequest) -> func.HttpResponse:
-    logging.info('Python HTTP trigger function processed a request.')
+setup = Flask(__name__)
 
-    ip_address = req.headers.get('X-Forwarded-For')
-    if not ip_address:
-        ip_address = req.remote_ip
+@setup.route('/')
+def index():
+    return 'Web App with Python Flask!'
 
-    date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    with open("ip_addresses.csv", mode="a", newline="") as csv_file:
-        fieldnames = ["IP Address", "Date"]
-        writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
-        writer.writerow({"IP Address": ip_address, "Date": date})
-
-    return func.HttpResponse(f"IP address {ip_address} saved to CSV file.")
+setup.run(host='0.0.0.0', port=81)
