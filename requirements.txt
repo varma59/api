@@ -1,4 +1,1 @@
-logging
-azure.functions
-csv
-datetime
+flask
